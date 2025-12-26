@@ -16,18 +16,18 @@ func Bitset() *bitset {
 	return &bitset{}
 }
 
-func (b *bitset) Populate() chromosome.Set {
-	s := make(chromosome.Set, b.size)
+func (p *bitset) Populate() chromosome.Set {
+	s := make(chromosome.Set, p.size)
 	for i := range s {
-		s[i] = chromosome.Bitset(b.rng, b.len)
+		s[i] = chromosome.Bitset(p.rng, p.len)
 	}
 	return s
 }
 
-func (b *bitset) Empty() chromosome.Set {
-	return make(chromosome.Set, b.size)
+func (p *bitset) Empty() chromosome.Set {
+	return make(chromosome.Set, p.size)
 }
 
-func (b *bitset) Random(r *Rand) { b.rng = r }
-func (b *bitset) Size(n int)     { b.size = n }
-func (b *bitset) Length(n int)   { b.len = n }
+func (p *bitset) Random(r *Rand) { p.rng = r }
+func (p *bitset) Size(n int)     { p.size = n }
+func (p *bitset) Length(n int)   { p.len = n }

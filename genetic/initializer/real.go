@@ -21,18 +21,18 @@ func Real(min, max float64) *real {
 	}
 }
 
-func (r *real) Populate() chromosome.Set {
-	s := make(chromosome.Set, r.size)
+func (p *real) Populate() chromosome.Set {
+	s := make(chromosome.Set, p.size)
 	for i := range s {
-		s[i] = chromosome.Real(r.rng, r.len, r.min, r.max)
+		s[i] = chromosome.Real(p.rng, p.len, p.min, p.max)
 	}
 	return s
 }
 
-func (r *real) Empty() chromosome.Set {
-	return make(chromosome.Set, r.size)
+func (p *real) Empty() chromosome.Set {
+	return make(chromosome.Set, p.size)
 }
 
-func (f *real) Random(r *Rand) { f.rng = r }
-func (r *real) Size(n int)     { r.size = n }
-func (r *real) Length(n int)   { r.len = n }
+func (p *real) Random(r *Rand) { p.rng = r }
+func (p *real) Size(n int)     { p.size = n }
+func (p *real) Length(n int)   { p.len = n }

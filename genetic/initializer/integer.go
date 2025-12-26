@@ -19,18 +19,18 @@ func Integer(k int) *integer {
 	}
 }
 
-func (z *integer) Populate() chromosome.Set {
-	s := make(chromosome.Set, z.size)
+func (p *integer) Populate() chromosome.Set {
+	s := make(chromosome.Set, p.size)
 	for i := range s {
-		s[i] = chromosome.Integer(z.rng, z.len, z.k)
+		s[i] = chromosome.Integer(p.rng, p.len, p.k)
 	}
 	return s
 }
 
-func (z *integer) Empty() chromosome.Set {
-	return make(chromosome.Set, z.size)
+func (p *integer) Empty() chromosome.Set {
+	return make(chromosome.Set, p.size)
 }
 
-func (z *integer) Random(r *Rand) { z.rng = r }
-func (z *integer) Size(n int)     { z.size = n }
-func (z *integer) Length(n int)   { z.len = n }
+func (p *integer) Random(r *Rand) { p.rng = r }
+func (p *integer) Size(n int)     { p.size = n }
+func (p *integer) Length(n int)   { p.len = n }

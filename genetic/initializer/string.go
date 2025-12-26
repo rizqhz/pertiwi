@@ -16,18 +16,18 @@ func String() *chars {
 	return &chars{}
 }
 
-func (s *chars) Populate() chromosome.Set {
-	p := make(chromosome.Set, s.size)
-	for i := range p {
-		p[i] = chromosome.String(s.rng, s.len)
+func (p *chars) Populate() chromosome.Set {
+	s := make(chromosome.Set, p.size)
+	for i := range s {
+		s[i] = chromosome.String(p.rng, p.len)
 	}
-	return p
+	return s
 }
 
-func (s *chars) Empty() chromosome.Set {
-	return make(chromosome.Set, s.size)
+func (p *chars) Empty() chromosome.Set {
+	return make(chromosome.Set, p.size)
 }
 
-func (s *chars) Random(r *Rand) { s.rng = r }
-func (s *chars) Size(n int)     { s.size = n }
-func (s *chars) Length(n int)   { s.len = n }
+func (p *chars) Random(r *Rand) { p.rng = r }
+func (p *chars) Size(n int)     { p.size = n }
+func (p *chars) Length(n int)   { p.len = n }
