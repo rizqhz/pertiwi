@@ -19,10 +19,7 @@ func (c *twopoint) Combine(p1, p2 Repr, rate float64) (c1, c2 Repr) {
 	c2 = p2.Clone()
 	if n := p1.Len(); c.rng.Float64() < rate {
 		a := c.rng.IntN(n)
-		b := c.rng.IntN(n)
-		for a == b {
-			b = c.rng.IntN(n)
-		}
+		b := (c.rng.IntN(n-1) + a + 1) % n
 		if a > b {
 			a, b = b, a
 		}
