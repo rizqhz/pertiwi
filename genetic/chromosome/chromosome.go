@@ -17,13 +17,14 @@ type Repr interface {
 
 type Set []Repr
 
-func (s Set) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
-func (s Set) Less(i, j int) bool { return s[i].Score() > s[j].Score() }
-func (s Set) Size() int          { return len(s) }
-func (s Set) Clone() Set         { return slices.Clone(s) }
+func (s Set) Swap(i, j int)         { s[i], s[j] = s[j], s[i] }
+func (s Set) Less(i, j int) bool    { return s[i].Score() < s[j].Score() }
+func (s Set) Greater(i, j int) bool { return s[i].Score() > s[j].Score() }
+func (s Set) Size() int             { return len(s) }
+func (s Set) Clone() Set            { return slices.Clone(s) }
 
 func (s Set) Best(n int) Set {
 	x := s.Clone()
-	sort.Slice(x, x.Less)
+	sort.Slice(x, x.Greater)
 	return x[:n]
 }
