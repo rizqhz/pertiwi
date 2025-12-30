@@ -24,7 +24,7 @@ func NewComponent(opts ...ComponentOption) *Component {
 	var component = &Component{
 		selector:     selector.Tournament(3),
 		recombinator: crossover.Uniform(),
-		strategy:     strategy.Fixed(0.001),
+		strategy:     strategy.Cosine(1e-3, 1e-1, 100),
 	}
 	for _, opt := range opts {
 		opt(component)
