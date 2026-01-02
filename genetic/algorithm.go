@@ -35,7 +35,7 @@ func (e *Engine) Evolve(proc chan Repr) Repr {
 
 func (e *Engine) Repopulate(curr, next Set) {
 	var wg sync.WaitGroup
-	jobs := make(chan int, len(curr)/2-e.KeepElitism)
+	jobs := make(chan int, (e.PopulationSize-e.KeepElitism+1)/2)
 	worker := func() {
 		defer wg.Done()
 		for i := range jobs {
