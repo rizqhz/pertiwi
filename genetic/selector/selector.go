@@ -1,16 +1,17 @@
 package selector
 
 import (
-	. "math/rand/v2"
+	"math/rand/v2"
 
-	. "github.com/rizqhz/pertiwi/genetic/chromosome"
+	"github.com/rizqhz/pertiwi/genetic/chromosome"
+)
+
+type (
+	Rand = rand.Rand
+	Repr = chromosome.Repr
+	Set  = chromosome.Set
 )
 
 type Selector interface {
-	Select(Set) Repr
-	Settings
-}
-
-type Settings interface {
-	Random(*Rand)
+	Select(Set, *Rand) Repr
 }

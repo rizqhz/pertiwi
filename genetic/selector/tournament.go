@@ -1,33 +1,20 @@
 package selector
 
-import (
-	. "math/rand/v2"
-
-	. "github.com/rizqhz/pertiwi/genetic/chromosome"
-)
-
 type tournament struct {
-	rng *Rand
-	k   int
+	k int
 }
 
 func Tournament(k int) *tournament {
-	return &tournament{
-		k: k,
-	}
+	return &tournament{k}
 }
 
-func (s *tournament) Select(p Set) Repr {
+func (s *tournament) Select(p Set, r *Rand) Repr {
 	var b Repr
 	for range s.k {
-		c := p[s.rng.IntN(len(p))]
+		c := p[r.IntN(len(p))]
 		if b == nil || c.Score() > b.Score() {
 			b = c
 		}
 	}
 	return b
-}
-
-func (s *tournament) Random(r *Rand) {
-	s.rng = r
 }

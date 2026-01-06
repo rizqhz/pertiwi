@@ -1,14 +1,8 @@
 package selector
 
-import (
-	. "math"
-	. "math/rand/v2"
-
-	. "github.com/rizqhz/pertiwi/genetic/chromosome"
-)
+import "math"
 
 type boltzmann struct {
-	rng         *Rand
 	temperature float64
 	decay       float64
 	interval    int
@@ -23,7 +17,7 @@ func Boltzmann(temperature, decay float64, interval int) *boltzmann {
 	}
 }
 
-func (s *boltzmann) Select(p Set) Repr {
+func (s *boltzmann) Select(p Set, r *Rand) Repr {
 	defer func() {
 		s.step += 1
 		if s.step%s.interval == 0 {
@@ -31,19 +25,19 @@ func (s *boltzmann) Select(p Set) Repr {
 		}
 	}()
 
-	var max float64 = Inf(-1)
+	max := math.Inf(-1)
 	for _, c := range p {
-		max = Max(c.Score(), max)
+		max = math.Max(c.Score(), max)
 	}
 
 	weights := make([]float64, len(p))
 	var sum float64
 	for i, c := range p {
-		weights[i] = Exp((c.Score() - max) / s.temperature)
+		weights[i] = math.Exp((c.Score() - max) / s.temperature)
 		sum += weights[i]
 	}
 
-	pick := s.rng.Float64() * sum
+	pick := r.Float64() * sum
 	var curr float64
 	for i, c := range p {
 		curr += weights[i]
@@ -53,8 +47,4 @@ func (s *boltzmann) Select(p Set) Repr {
 	}
 
 	return p[len(p)-1]
-}
-
-func (s *boltzmann) Random(r *Rand) {
-	s.rng = r
 }
