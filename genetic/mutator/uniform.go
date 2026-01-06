@@ -1,33 +1,22 @@
 package mutator
 
-import (
-	. "math/rand/v2"
-
-	. "github.com/rizqhz/pertiwi/genetic/chromosome"
-)
-
 type uniform struct {
-	rng *Rand
-	min float64
-	max float64
+	a float64
+	b float64
 }
 
 func Uniform(min, max float64) *uniform {
 	return &uniform{
-		min: min,
-		max: max,
+		a: min,
+		b: max,
 	}
 }
 
-func (m *uniform) Mutate(c Repr, rate float64) {
+func (m *uniform) Mutate(c Repr, p Rate, r *Rand) {
 	genes := c.Genes().([]float64)
 	for i := range genes {
-		if m.rng.Float64() < rate {
-			genes[i] = m.min + m.rng.Float64()*(m.max-m.min)
+		if r.Float64() < p {
+			genes[i] = m.a + r.Float64()*(m.b-m.a)
 		}
 	}
-}
-
-func (m *uniform) Random(r *Rand) {
-	m.rng = r
 }

@@ -1,29 +1,23 @@
 package mutator
 
-import (
-	. "math/rand/v2"
-
-	. "github.com/rizqhz/pertiwi/genetic/chromosome"
-)
-
-type swap struct {
-	rng *Rand
-}
+type swap struct{}
 
 func Swap() *swap {
 	return &swap{}
 }
 
-func (m *swap) Mutate(c Repr, rate float64) {
-	if n := c.Len(); m.rng.Float64() < rate {
-		i := m.rng.IntN(n)
-		j := m.rng.IntN(n)
-		v1, v2 := c.Get(i), c.Get(j)
-		c.Set(i, v2)
-		c.Set(j, v1)
+func (m *swap) Mutate(c Repr, p float64, r *Rand) {
+	if r.Float64() > p {
+		return
 	}
-}
 
-func (m *swap) Random(r *Rand) {
-	m.rng = r
+	n := c.Len()
+
+	i := r.IntN(n)
+	j := r.IntN(n)
+
+	x, y := c.Get(i), c.Get(j)
+
+	c.Set(i, y)
+	c.Set(j, x)
 }
