@@ -4,8 +4,7 @@ import (
 	"runtime"
 	"sync"
 
-	. "github.com/rizqhz/pertiwi/genetic/chromosome"
-	"github.com/rizqhz/pertiwi/random"
+	"github.com/rizqhz/pertiwi/genetic/chromosome"
 )
 
 type Engine struct {
@@ -14,41 +13,33 @@ type Engine struct {
 }
 
 func NewEngine(p *Parameter, c *Component) *Engine {
-	var engine = &Engine{
-		Parameter: p,
-		Component: c,
+	if p == nil || c == nil {
+		panic("parameter or component must be set.")
 	}
-	RNG := random.From(engine.RandomSeed)
-	engine.Setup(RNG)
-	return engine
+	return &Engine{p, c}
 }
 
-func (e *Engine) Setup(r random.Source) {
-	e.initializer.Size(e.PopulationSize)
-	e.initializer.Length(e.GenesLength)
-	e.initializer.Random(r.PRNG())
-	e.selector.Random(r.PRNG())
-	e.recombinator.Random(r.PRNG())
-	e.mutator.Random(r.PRNG())
-}
-
-func (e *Engine) Compute(p Set) {
+func (e *Engine) Compute(s chromosome.Set) {
 	var wg sync.WaitGroup
-	jobs := make(chan Repr, len(p))
+
+	jobs := make(chan chromosome.Repr, len(s))
 	worker := func() {
-		defer wg.Done()
 		for c := range jobs {
 			e.evaluator.Evaluate(c)
 		}
+		wg.Done()
 	}
-	n := runtime.NumCPU()
+
+	n := runtime.GOMAXPROCS(0)
 	wg.Add(n)
 	for range n {
 		go worker()
 	}
-	for _, c := range p {
+
+	for _, c := range s {
 		jobs <- c
 	}
+
 	close(jobs)
 	wg.Wait()
 }
