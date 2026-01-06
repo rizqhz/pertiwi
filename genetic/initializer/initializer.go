@@ -1,19 +1,19 @@
 package initializer
 
 import (
-	. "math/rand/v2"
+	"math/rand/v2"
 
 	"github.com/rizqhz/pertiwi/genetic/chromosome"
 )
 
-type Initializer interface {
-	Populate() chromosome.Set
-	Empty() chromosome.Set
-	Settings
-}
+type (
+	Rand = rand.Rand
+	Set  = chromosome.Set
+	Size = int
+	Len  = int
+)
 
-type Settings interface {
-	Random(*Rand)
-	Size(int)
-	Length(int)
+type Initializer interface {
+	Populate(*Rand, Size, Len) Set
+	Empty(*Rand, Size) Set
 }

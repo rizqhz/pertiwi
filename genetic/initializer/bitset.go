@@ -1,33 +1,23 @@
 package initializer
 
 import (
-	. "math/rand/v2"
-
 	"github.com/rizqhz/pertiwi/genetic/chromosome"
 )
 
-type bitset struct {
-	rng  *Rand
-	size int
-	len  int
-}
+type bitset struct{}
 
 func Bitset() *bitset {
 	return &bitset{}
 }
 
-func (p *bitset) Populate() chromosome.Set {
-	s := make(chromosome.Set, p.size)
+func (p *bitset) Populate(r *Rand, n Size, k Len) Set {
+	s := make(Set, n)
 	for i := range s {
-		s[i] = chromosome.Bitset(p.rng, p.len)
+		s[i] = chromosome.Bitset(r, k)
 	}
 	return s
 }
 
-func (p *bitset) Empty() chromosome.Set {
-	return make(chromosome.Set, p.size)
+func (p *bitset) Empty(r *Rand, n Size) Set {
+	return make(Set, n)
 }
-
-func (p *bitset) Random(r *Rand) { p.rng = r }
-func (p *bitset) Size(n int)     { p.size = n }
-func (p *bitset) Length(n int)   { p.len = n }

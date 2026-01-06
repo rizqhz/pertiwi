@@ -1,36 +1,25 @@
 package initializer
 
 import (
-	. "math/rand/v2"
-
 	"github.com/rizqhz/pertiwi/genetic/chromosome"
 )
 
 type integer struct {
-	rng  *Rand
-	size int
-	len  int
-	k    int
+	n int
 }
 
-func Integer(k int) *integer {
-	return &integer{
-		k: k,
-	}
+func Integer(n int) *integer {
+	return &integer{n}
 }
 
-func (p *integer) Populate() chromosome.Set {
-	s := make(chromosome.Set, p.size)
+func (p *integer) Populate(r *Rand, n Size, k Len) Set {
+	s := make(Set, n)
 	for i := range s {
-		s[i] = chromosome.Integer(p.rng, p.len, p.k)
+		s[i] = chromosome.Integer(r, k, p.n)
 	}
 	return s
 }
 
-func (p *integer) Empty() chromosome.Set {
-	return make(chromosome.Set, p.size)
+func (p *integer) Empty(r *Rand, n Size) Set {
+	return make(Set, n)
 }
-
-func (p *integer) Random(r *Rand) { p.rng = r }
-func (p *integer) Size(n int)     { p.size = n }
-func (p *integer) Length(n int)   { p.len = n }
