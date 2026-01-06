@@ -1,16 +1,17 @@
 package crossover
 
 import (
-	. "math/rand/v2"
+	"math/rand/v2"
 
-	. "github.com/rizqhz/pertiwi/genetic/chromosome"
+	"github.com/rizqhz/pertiwi/genetic/chromosome"
+)
+
+type (
+	Rand = rand.Rand
+	Repr = chromosome.Repr
+	Rate = float64
 )
 
 type Recombinator interface {
-	Combine(p1, p2 Repr, rate float64) (c1, c2 Repr)
-	Settings
-}
-
-type Settings interface {
-	Random(*Rand)
+	Combine(Repr, Repr, Rate, *Rand) (Repr, Repr)
 }

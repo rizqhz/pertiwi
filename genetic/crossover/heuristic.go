@@ -1,37 +1,31 @@
 package crossover
 
-import (
-	. "math/rand/v2"
-
-	. "github.com/rizqhz/pertiwi/genetic/chromosome"
-)
-
-type heuristic struct {
-	rng *Rand
-}
+type heuristic struct{}
 
 func Heuristic() *heuristic {
 	return &heuristic{}
 }
 
-func (c *heuristic) Combine(p1, p2 Repr, rate float64) (c1, c2 Repr) {
-	c1 = p1.Clone()
-	c2 = p2.Clone()
-	if n := p1.Len(); c.rng.Float64() < rate {
-		pBest, pWorst := p1, p2
-		if pWorst.Score() > pBest.Score() {
-			pBest, pWorst = p2, p1
-		}
-		for i := range n {
-			vBest := pBest.Get(i).(float64)
-			vWorst := pWorst.Get(i).(float64)
-			c1.Set(i, vBest+c.rng.Float64()*(vBest-vWorst))
-			c2.Set(i, vBest+c.rng.Float64()*(vBest-vWorst))
-		}
+func (c *heuristic) Combine(p1, p2 Repr, p Rate, r *Rand) (Repr, Repr) {
+	if r.Float64() > p {
+		return p1.Clone(), p2.Clone()
 	}
-	return c1, c2
-}
 
-func (c *heuristic) Random(r *Rand) {
-	c.rng = r
+	c1, c2 := p1.Clone(), p2.Clone()
+	n := p1.Len()
+
+	a, b := p1, p2
+	if b.Score() > a.Score() {
+		a, b = p2, p1
+	}
+
+	for i := range n {
+		x := a.Get(i).(float64)
+		y := b.Get(i).(float64)
+
+		c1.Set(i, (x + r.Float64()*(x-y)))
+		c2.Set(i, (x + r.Float64()*(x-y)))
+	}
+
+	return c1, c2
 }
