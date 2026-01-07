@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"math/rand/v2"
-	"time"
 
 	"github.com/rizqhz/pertiwi/genetic"
 	"github.com/rizqhz/pertiwi/genetic/chromosome"
@@ -60,26 +59,19 @@ var (
 
 func main() {
 	engine := genetic.NewEngine(parameter, component)
+
 	go func() {
 		output <- engine.Evolve(process)
 		close(output)
 	}()
-	t := time.Now()
+
 	for {
 		select {
-		case result, ok := <-process:
-			if ok {
-				fmt.Printf("%s (%f)\n", result, result.Score())
-				time.Sleep(time.Millisecond * 50)
-			}
-		case result, ok := <-output:
-			if ok {
-				fmt.Printf("%s (%f)\n", result, result.Score())
-			} else {
-				ms := time.Since(t).Milliseconds()
-				fmt.Printf("%vms\n", ms)
-				return
-			}
+		case result := <-process:
+			_ = result
+		case result := <-output:
+			fmt.Printf("C: %s F: %f\n", result, result.Score())
+			return
 		}
 	}
 }
